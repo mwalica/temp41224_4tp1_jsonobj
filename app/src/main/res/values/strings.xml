@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">temp41224_4tp1_jsonobj</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
