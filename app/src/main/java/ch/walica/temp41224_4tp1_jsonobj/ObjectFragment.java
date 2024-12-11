@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,22 +48,24 @@ public class ObjectFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Button btnShowObject = view.findViewById(R.id.btnShowObj);
+        Gson gson = new Gson();
 
         btnShowObject.setOnClickListener(v -> {
 
-            try {
-                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(Util.loadJSONFromAssets("person.json", requireActivity())));
-                String name = jsonObject.getString("firstName");
-                int age = jsonObject.getInt("age");
-                JSONObject address = jsonObject.getJSONObject("address");
-                String country = address.getString("country");
-                String city = address.getString("city");
-                Person person = new Person(name, age, new Address(country, city));
-                Log.d(Util.TAG, "person: " + person);
-            } catch(JSONException e) {
-                Log.d(Util.TAG, "error: " + e.getLocalizedMessage());
-            }
-
+//            try {
+//                JSONObject jsonObject = new JSONObject(Objects.requireNonNull(Util.loadJSONFromAssets("person.json", requireActivity())));
+//                String name = jsonObject.getString("firstName");
+//                int age = jsonObject.getInt("age");
+//                JSONObject address = jsonObject.getJSONObject("address");
+//                String country = address.getString("country");
+//                String city = address.getString("city");
+//                Person person = new Person(name, age, new Address(country, city));
+//                Log.d(Util.TAG, "person: " + person);
+//            } catch(JSONException e) {
+//                Log.d(Util.TAG, "error: " + e.getLocalizedMessage());
+//            }
+            Person person = gson.fromJson(Util.loadJSONFromAssets("person.json", requireActivity()), Person.class);
+            Log.d(Util.TAG, "person: " + person);
         });
     }
 }

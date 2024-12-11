@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,25 +46,30 @@ public class ArrayFragment extends Fragment {
 
         btnShowArray.setOnClickListener(v -> {
 
-            try {
-                JSONArray jsonArray = new JSONArray(Util.loadJSONFromAssets("persons.json", requireActivity()));
+            Gson gson = new Gson();
 
-                for(int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String name = jsonObject.getString("firstName");
-                    int age = jsonObject.getInt("age");
-                    JSONObject address = jsonObject.getJSONObject("address");
-                    String country = address.getString("country");
-                    String city = address.getString("city");
-                    Person person = new Person(name, age, new Address(country, city));
+//            try {
+//                JSONArray jsonArray = new JSONArray(Util.loadJSONFromAssets("persons.json", requireActivity()));
+//
+//                for(int i = 0; i < jsonArray.length(); i++) {
+//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                    String name = jsonObject.getString("firstName");
+//                    int age = jsonObject.getInt("age");
+//                    JSONObject address = jsonObject.getJSONObject("address");
+//                    String country = address.getString("country");
+//                    String city = address.getString("city");
+//                    Person person = new Person(name, age, new Address(country, city));
+//
+//                    persons.add(person);
+//                }
+//                Log.d(Util.TAG, "persons: " + persons);
+//
+//            } catch (JSONException e) {
+//                Log.d(Util.TAG, "error: " + e.getLocalizedMessage());
+//            }
 
-                    persons.add(person);
-                }
-                Log.d(Util.TAG, "persons: " + persons);
-
-            } catch (JSONException e) {
-                Log.d(Util.TAG, "error: " + e.getLocalizedMessage());
-            }
+            Person[] persons = gson.fromJson(Util.loadJSONFromAssets("persons.json", requireActivity()), Person[].class);
+            Log.d(Util.TAG, "persons: " + persons[0].address().city());
 
         });
     }
